@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod2
+  labels:
+    app: pod2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod2
+  template:
+    metadata:
+      labels:
+        app: pod2
+    spec:
+      containers:
+      - name: pod2
+        image: docker.io/anyery20k/parcialpod2:v1
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 2012
+       
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: pod2
+spec:
+  ports:
+  - port: 2012
+    targetPort: 2012
+  selector:
+    app: pod2
+  type: LoadBalancer
